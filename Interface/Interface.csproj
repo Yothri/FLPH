@@ -1,18 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="newtonsoft.json" Version="10.0.3" />
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Ether.Network.Photon\Ether.Network.Photon\Ether.Network.Photon.csproj" />
-    <ProjectReference Include="..\Interface\Interface.csproj" />
   </ItemGroup>
 
 </Project>
