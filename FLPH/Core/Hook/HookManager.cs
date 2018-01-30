@@ -1,43 +1,108 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using CSScriptLib;
+using Ether.Network.Photon.Common;
+using Newtonsoft.Json.Linq;
 
 namespace FLPH.Core.Hook
 {
     internal class HookManager
     {
-        public string CallClientToAuthHooks(string data)
+        private const string SCRIPTS_DIR = "Hooks";
+
+        public HookManager()
         {
+            _hooks = new List<FLPH.Hook>();
+        }
+
+        public void LoadHooks()
+        {
+            _hooks.Clear();
+
+            if (!Directory.Exists(SCRIPTS_DIR))
+                Directory.CreateDirectory(SCRIPTS_DIR);
+            
+            var files = Directory.GetFiles(SCRIPTS_DIR, "*.cs", SearchOption.AllDirectories);
+            foreach(var file in files)
+            {
+                try
+                {
+                    _hooks.Add(CSScript.Evaluator
+                        .ReferenceAssemblyOf<JObject>()
+                        .ReferenceAssemblyOf<PhotonPacket>()
+                        .LoadCode<FLPH.Hook>(File.ReadAllText(file)));
+                    Console.WriteLine($"[HookManager] Hook {Path.GetFileNameWithoutExtension(file)} has been loaded.");
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            Console.WriteLine($"[HookManager] Loaded {_hooks.Count} hook(s).");
+        }
+
+        #region "PDGameServer"
+        public void CallClientToGameServerHooks(PhotonPacket packet)
+        {
+            foreach (var hook in Hooks)
+                hook.ClientToGameServerOverride(packet);
+        }
+
+        public void CallGameServerToClientHooks(PhotonPacket packet)
+        {
+            foreach (var hook in Hooks)
+                hook.GameServerToClientOverride(packet);
+        }
+        #endregion
+        #region "WPDGate"
+        public string CallClientToGateHooks(string cmd, string data)
+        {
+            foreach (var hook in Hooks)
+                data = hook.ClientToGateOverride(cmd, data);
+            return data;
+        }
+
+        public string CallGateToClientHooks(string cmd, string data)
+        {
+            foreach (var hook in Hooks)
+                data = hook.GateToClientOverride(cmd, data);
+            return data;
+        }
+        #endregion
+        #region "WPDAuth"
+        public string CallClientToAuthHooks(string cmd, string data)
+        {
+            foreach (var hook in Hooks)
+                data = hook.ClientToAuthOverride(cmd, data);
             return data;
         }
 
         public string CallAuthToClientHooks(string cmd, string data)
         {
-            var obj = JObject.Parse(data);
-            if(cmd == "GameServers")
-            {
-                var gsg = new JObject();
-                gsg["groupId"] = 1;
-                gsg["name"] = "Deutsche";
-                gsg["recommendGameServerId"] = 65003;
-
-                var gs = new JObject();
-                gs["virtualGameServerId"] = 65003;
-                gs["gameServerId"] = 65003;
-                gs["groupId"] = 1;
-                gs["displayNo"] = 1;
-                gs["name"] = "Skorpion";
-                gs["apiUrl"] = "http://192.168.0.122:8010/game/";
-                gs["proxyGameServerIp"] = "192.168.0.122";
-                gs["proxyGameServerPort"] = 22703;
-                gs["isMaintenance"] = false;
-                gs["pkEnabled"] = false;
-                gs["timeZone"] = "DE";
-                gs["stateCode"] = 1;
-                gs["isRecommend"] = true;
-
-                obj["gameServers"] = new JArray(gs);
-                obj["gameServerGroups"] = new JArray(gsg);
-            }
-            return obj.ToString();
+            foreach (var hook in Hooks)
+                data = hook.AuthToClientOverride(cmd, data);
+            return data;
         }
+        #endregion
+        #region "WPDGame"
+        public string CallClientToGameHooks(string cmd, string data)
+        {
+            foreach (var hook in Hooks)
+                data = hook.ClientToGameOverride(cmd, data);
+            return data;
+        }
+
+        public string CallGameToClientHooks(string cmd, string data)
+        {
+            foreach (var hook in Hooks)
+                data = hook.GameToClientOverride(cmd, data);
+            return data;
+        }
+        #endregion
+
+        private readonly List<FLPH.Hook> _hooks;
+        public IEnumerable<FLPH.Hook> Hooks => _hooks;
     }
 }

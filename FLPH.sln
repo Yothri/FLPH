@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface", "Interface\Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlightNet", "..\SlightNet\SlightNet\SlightNet.csproj", "{33588454-728C-4438-AE72-10B46DDB9BD0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSScriptLib", "..\cs-script\Source\.NET Core\CSScriptLib\src\CSScriptLib\CSScriptLib.csproj", "{C2313484-BCF5-431F-97B5-156017CB46CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{33588454-728C-4438-AE72-10B46DDB9BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33588454-728C-4438-AE72-10B46DDB9BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33588454-728C-4438-AE72-10B46DDB9BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2313484-BCF5-431F-97B5-156017CB46CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2313484-BCF5-431F-97B5-156017CB46CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2313484-BCF5-431F-97B5-156017CB46CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2313484-BCF5-431F-97B5-156017CB46CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

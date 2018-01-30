@@ -12,6 +12,7 @@ namespace FLPH.Network.Server
             Configuration.Backlog = 1;
             Configuration.Host = AppContext.Instance.Configuration.ProxyServerInterface;
             Configuration.Port = AppContext.Instance.Configuration.ProxyServerPort;
+            Configuration.BufferSize = 8;
         }
 
         protected override void Initialize()
@@ -27,6 +28,9 @@ namespace FLPH.Network.Server
         protected override void OnClientDisconnected(PhotonProxyConnection connection)
         {
             Console.WriteLine("Game Client disconnected from Proxy Server.");
+
+            AppContext.Instance.ProxyClient.Disconnect();
+            AppContext.Instance.ProxyClient.Connect();
         }
     }
 }

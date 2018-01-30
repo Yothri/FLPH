@@ -37,6 +37,22 @@ namespace FLPH.Network.Server
                 var context = listener.EndGetContext(ar);
 
                 var splitter = context.Request.RawUrl.Split('/');
+                //if (splitter[1] == "gate")
+                //{
+                //    using (var reader = new StreamReader(context.Request.InputStream))
+                //    using (var writer = new StreamWriter(context.Response.OutputStream))
+                //    {
+                //        var requestContent = reader.ReadToEnd();
+                //        var Command = JObject.Parse(requestContent)["cmd"].ToObject<string>();
+                //        Console.WriteLine($"Handling: {Command}");
+                //        requestContent = AppContext.Instance.HookManager.CallClientToGateHooks(Command, requestContent);
+                //        var genuineResponse = await GenuineClient.PostAsync(AppContext.Instance.Configuration.GenuineGateServerAddress, new StringContent(requestContent));
+                //        var genuineResponseContent = await genuineResponse.Content.ReadAsStringAsync();
+                //        genuineResponseContent = AppContext.Instance.HookManager.CallGateToClientHooks(Command, genuineResponseContent);
+                //        writer.Write(genuineResponseContent);
+                //    }
+                //}
+
                 if (splitter[1] == "auth")
                 {
                     using (var reader = new StreamReader(context.Request.InputStream))
@@ -46,7 +62,7 @@ namespace FLPH.Network.Server
                         requestContent = WPDUtil.Transform(requestContent, "D");
                         var Command = JObject.Parse(requestContent)["cmd"].ToObject<string>();
                         Console.WriteLine($"Handling: {Command}");
-                        var requestContentPatched = AppContext.Instance.HookManager.CallClientToAuthHooks(requestContent);
+                        var requestContentPatched = AppContext.Instance.HookManager.CallClientToAuthHooks(Command, requestContent);
                         requestContentPatched = WPDUtil.Transform(requestContentPatched, "E");
                         var genuineResponse = await GenuineClient.PostAsync(AppContext.Instance.Configuration.GenuineAuthServerAddress, new StringContent(requestContentPatched));
                         var genuineResponseContent = await genuineResponse.Content.ReadAsStringAsync();
@@ -71,8 +87,10 @@ namespace FLPH.Network.Server
                         var requestContent = reader.ReadToEnd();
                         var Command = JObject.Parse(requestContent)["cmd"].ToObject<string>();
                         Console.WriteLine($"Handling: {Command}");
+                        requestContent = AppContext.Instance.HookManager.CallClientToGameHooks(Command, requestContent);
                         var genuineResponse = await GenuineClient.PostAsync(AppContext.Instance.Configuration.GenuineGameServerAddress, new StringContent(requestContent));
                         var genuineResponseContent = await genuineResponse.Content.ReadAsStringAsync();
+                        genuineResponseContent = AppContext.Instance.HookManager.CallGameToClientHooks(Command, genuineResponseContent);
 
                         writer.Write(genuineResponseContent);
                     }

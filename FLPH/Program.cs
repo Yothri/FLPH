@@ -17,6 +17,8 @@ namespace FLPH
                 while (true)
                 {
                     var inp = Console.ReadLine();
+                    if (inp.Equals("ld hooks"))
+                        AppContext.Instance.HookManager.LoadHooks();
                     if (inp.Equals("exit"))
                         break;
                 }

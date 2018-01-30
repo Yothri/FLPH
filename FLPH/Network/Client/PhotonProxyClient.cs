@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using Ether.Network.Photon.Client;
 using Ether.Network.Photon.Common;
 using SlightNet.Common.Interface;
@@ -13,6 +12,7 @@ namespace FLPH.Network.Client
         {
             Configuration.Host = AppContext.Instance.Configuration.GenuineGameServerIp;
             Configuration.Port = AppContext.Instance.Configuration.GenuineGameServerPort;
+            Configuration.BufferSize = 8;
         }
 
         protected override void OnConnected()
@@ -31,6 +31,7 @@ namespace FLPH.Network.Client
             using (var response = new PhotonPacket())
             {
                 response.Write(data, 0, data.Length);
+                AppContext.Instance.HookManager.CallGameServerToClientHooks(response);
                 AppContext.Instance.ProxyServer.SendTo(AppContext.Instance.ProxyServer.Clients, response);
             }
         }

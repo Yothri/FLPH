@@ -4,16 +4,16 @@ namespace FLPH
 {
     public abstract class Hook
     {
-        public virtual string ClientToGateOverride(string data) { return data; }
-        public virtual string GateToClientOverride(string data) { return data; }
+        public virtual string ClientToGateOverride(string cmd, string data) { return data; }
+        public virtual string GateToClientOverride(string cmd, string data) { return data; }
 
-        public virtual string ClientToAuthOverride(string data) { return data; }
-        public virtual string AuthToClientOverride(string data) { return data; }
+        public virtual string ClientToAuthOverride(string cmd, string data) { return data; }
+        public virtual string AuthToClientOverride(string cmd, string data) { return data; }
 
-        public virtual string ClientToGameOverride(string data) { return data; }
-        public virtual string GameToclientOverride(string data) { return data; }
+        public virtual string ClientToGameOverride(string cmd, string data) { return data; }
+        public virtual string GameToClientOverride(string cmd, string data) { return data; }
 
-        public virtual PhotonPacket ClientToGameOverride(PhotonPacket data) { return data; }
-        public virtual PhotonPacket GameToClientOverride(PhotonPacket data) { return data; }
+        public virtual void ClientToGameServerOverride(PhotonPacket data) { }
+        public virtual void GameServerToClientOverride(PhotonPacket data) { }
     }
 }

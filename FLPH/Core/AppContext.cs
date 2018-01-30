@@ -31,6 +31,7 @@ namespace FLPH.Core
             ProxyServer = new PhotonProxyServer();
             ProxyClient = new PhotonProxyClient();
             HookManager = new HookManager();
+            HookManager.LoadHooks();
         }
 
         public void LoadConfiguration()

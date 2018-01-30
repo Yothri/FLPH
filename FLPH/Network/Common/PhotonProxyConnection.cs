@@ -18,6 +18,7 @@ namespace FLPH.Network.Common
             using (var response = new PhotonPacket())
             {
                 response.Write(data, 0, data.Length);
+                AppContext.Instance.HookManager.CallClientToGameServerHooks(response);
                 AppContext.Instance.ProxyClient.Send(response);
             }
         }
