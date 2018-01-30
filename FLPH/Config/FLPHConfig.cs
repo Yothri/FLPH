@@ -12,6 +12,8 @@
 
             ProxyServerInterface = "0.0.0.0";
             ProxyServerPort = 22703;
+
+            WebProxyPort = 80;
         }
 
         public string GenuineGateServerAddress { get; set; }
@@ -21,5 +23,6 @@
         public int GenuineGameServerPort { get; set; }
         public string ProxyServerInterface { get; set; }
         public int ProxyServerPort { get; set; }
+        public int WebProxyPort { get; set; }
     }
 }

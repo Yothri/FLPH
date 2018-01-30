@@ -13,7 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\cs-script\Source\.NET Core\CSScriptLib\src\CSScriptLib\CSScriptLib.csproj" />
     <ProjectReference Include="..\..\Ether.Network.Photon\Ether.Network.Photon\Ether.Network.Photon.csproj" />
+    <ProjectReference Include="..\ClientCommon\ClientCommon.csproj" />
     <ProjectReference Include="..\Interface\Interface.csproj" />
+    <ProjectReference Include="..\WebCommon\WebCommon.csproj" />
   </ItemGroup>
 
 </Project>

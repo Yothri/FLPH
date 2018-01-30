@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AppContext = FLPH.Core.AppContext;
 
 namespace FLPH
@@ -17,8 +18,10 @@ namespace FLPH
                 while (true)
                 {
                     var inp = Console.ReadLine();
-                    if (inp.Equals("ld hooks"))
+                    if (inp.Equals("rldhooks"))
                         AppContext.Instance.HookManager.LoadHooks();
+                    if (inp.Equals("dcclient"))
+                        AppContext.Instance.ProxyServer.DisconnectClient(AppContext.Instance.ProxyServer.Clients.FirstOrDefault().Id);
                     if (inp.Equals("exit"))
                         break;
                 }

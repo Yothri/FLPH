@@ -13,7 +13,7 @@ namespace FLPH.Network.Common
 
             var data = packet.Read<byte>(packet.Size);
             
-            Console.WriteLine($"Packet with Size: {data.Length} from Game Client received.");
+            //Console.WriteLine($"Packet with Size: {data.Length} from Game Client received.");
 
             using (var response = new PhotonPacket())
             {

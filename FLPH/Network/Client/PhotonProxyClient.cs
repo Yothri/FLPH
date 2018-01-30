@@ -26,7 +26,7 @@ namespace FLPH.Network.Client
 
             var data = packet.Read<byte>(packet.Size);
 
-            Console.WriteLine($"Packet with Size: {data.Length} from Genuine Game Server received.");
+            //Console.WriteLine($"Packet with Size: {data.Length} from Genuine Game Server received.");
 
             using (var response = new PhotonPacket())
             {

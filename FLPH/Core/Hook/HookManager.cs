@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using CSScriptLib;
 using Ether.Network.Photon.Common;
 using Newtonsoft.Json.Linq;
@@ -24,13 +25,16 @@ namespace FLPH.Core.Hook
                 Directory.CreateDirectory(SCRIPTS_DIR);
             
             var files = Directory.GetFiles(SCRIPTS_DIR, "*.cs", SearchOption.AllDirectories);
+
+            IEvaluator evaluator = CSScript.Evaluator;
+            foreach (var t in Assembly.GetExecutingAssembly().GetTypes())
+                evaluator = evaluator.ReferenceAssembly(t.Assembly);
+
             foreach(var file in files)
             {
                 try
                 {
-                    _hooks.Add(CSScript.Evaluator
-                        .ReferenceAssemblyOf<JObject>()
-                        .ReferenceAssemblyOf<PhotonPacket>()
+                    _hooks.Add(evaluator
                         .LoadCode<FLPH.Hook>(File.ReadAllText(file)));
                     Console.WriteLine($"[HookManager] Hook {Path.GetFileNameWithoutExtension(file)} has been loaded.");
                 }
