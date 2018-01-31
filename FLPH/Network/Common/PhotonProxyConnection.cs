@@ -1,14 +1,14 @@
-﻿using Ether.Network.Photon.Common;
-using SlightNet.Common.Interface;
+﻿using Ether.Network.Packets;
+using Ether.Network.Photon.Common;
 using AppContext = FLPH.Core.AppContext;
 
 namespace FLPH.Network.Common
 {
     internal sealed class PhotonProxyConnection : PhotonConnection
     {
-        public override void HandlePacket(IPacketStream packet)
+        public override void HandleMessage(INetPacketStream packet)
         {
-            base.HandlePacket(packet);
+            base.HandleMessage(packet);
 
             var data = packet.Read<byte>(packet.Size);
             data = AppContext.Instance.HookManager.CallClientToGameServerHooks(data);

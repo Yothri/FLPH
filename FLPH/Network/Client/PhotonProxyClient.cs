@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Net.Sockets;
+using Ether.Network.Packets;
 using Ether.Network.Photon.Client;
 using Ether.Network.Photon.Common;
-using SlightNet.Common.Interface;
 using AppContext = FLPH.Core.AppContext;
 
 namespace FLPH.Network.Client
 {
     internal class PhotonProxyClient : PhotonClient
     {
-        internal PhotonProxyClient()
+        internal PhotonProxyClient() : base(AppContext.Instance.Configuration.GenuineGameServerIp, AppContext.Instance.Configuration.GenuineGameServerPort, 9)
         {
-            Configuration.Host = AppContext.Instance.Configuration.GenuineGameServerIp;
-            Configuration.Port = AppContext.Instance.Configuration.GenuineGameServerPort;
-            Configuration.BufferSize = 8;
+
         }
 
         protected override void OnConnected()
@@ -20,9 +19,9 @@ namespace FLPH.Network.Client
             Console.WriteLine("Connection to Genuine Game Server established.");
         }
 
-        public override void HandlePacket(IPacketStream packet)
+        public override void HandleMessage(INetPacketStream packet)
         {
-            base.HandlePacket(packet);
+            base.HandleMessage(packet);
 
             var data = packet.Read<byte>(packet.Size);
             data = AppContext.Instance.HookManager.CallGameServerToClientHooks(data);
@@ -36,6 +35,11 @@ namespace FLPH.Network.Client
         protected override void OnDisconnected()
         {
             Console.WriteLine("Connection to Genuine Game Server reset.");
+        }
+
+        protected override void OnSocketError(SocketError socketError)
+        {
+            throw new NotImplementedException();
         }
     }
 }
