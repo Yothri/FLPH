@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using CSScriptLib;
 using Ether.Network.Photon.Common;
-using Newtonsoft.Json.Linq;
 
 namespace FLPH.Core.Hook
 {
@@ -25,7 +23,7 @@ namespace FLPH.Core.Hook
                 Directory.CreateDirectory(SCRIPTS_DIR);
             
             var files = Directory.GetFiles(SCRIPTS_DIR, "*.cs", SearchOption.AllDirectories);
-            
+
             foreach(var file in files)
             {
                 try
