@@ -25,16 +25,13 @@ namespace FLPH.Core.Hook
                 Directory.CreateDirectory(SCRIPTS_DIR);
             
             var files = Directory.GetFiles(SCRIPTS_DIR, "*.cs", SearchOption.AllDirectories);
-
-            IEvaluator evaluator = CSScript.Evaluator;
-            foreach (var t in Assembly.GetExecutingAssembly().GetTypes())
-                evaluator = evaluator.ReferenceAssembly(t.Assembly);
-
+            
             foreach(var file in files)
             {
                 try
                 {
-                    _hooks.Add(evaluator
+                    _hooks.Add(CSScript.Evaluator
+                        .ReferenceDomainAssemblies(DomainAssemblies.All)
                         .LoadCode<FLPH.Hook>(File.ReadAllText(file)));
                     Console.WriteLine($"[HookManager] Hook {Path.GetFileNameWithoutExtension(file)} has been loaded.");
                 }
