@@ -25,13 +25,10 @@ namespace FLPH.Network.Client
             base.HandlePacket(packet);
 
             var data = packet.Read<byte>(packet.Size);
-
-            //Console.WriteLine($"Packet with Size: {data.Length} from Genuine Game Server received.");
-
+            data = AppContext.Instance.HookManager.CallGameServerToClientHooks(data);
             using (var response = new PhotonPacket())
             {
                 response.Write(data, 0, data.Length);
-                AppContext.Instance.HookManager.CallGameServerToClientHooks(response);
                 AppContext.Instance.ProxyServer.SendTo(AppContext.Instance.ProxyServer.Clients, response);
             }
         }

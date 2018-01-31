@@ -1,6 +1,4 @@
-﻿using Ether.Network.Photon.Common;
-
-namespace FLPH
+﻿namespace FLPH
 {
     public abstract class Hook
     {
@@ -13,7 +11,7 @@ namespace FLPH
         public virtual string ClientToGameOverride(string cmd, string data) { return data; }
         public virtual string GameToClientOverride(string cmd, string data) { return data; }
 
-        public virtual void ClientToGameServerOverride(PhotonPacket data) { }
-        public virtual void GameServerToClientOverride(PhotonPacket data) { }
+        public virtual byte[] ClientToGameServerOverride(byte[] data) { return data; }
+        public virtual byte[] GameServerToClientOverride(byte[] data) { return data; }
     }
 }

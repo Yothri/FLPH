@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Ether.Network.Photon.Common;
 using FLPH;
-using FLPH.Util;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebCommon;
 
@@ -22,5 +20,10 @@ public class Tests : Hook
         }
 
         return jData.ToString();
+    }
+
+    public override byte[] GameServerToClientOverride(byte[] data)
+    {
+        return base.GameServerToClientOverride(data);
     }
 }

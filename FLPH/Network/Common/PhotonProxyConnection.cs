@@ -1,5 +1,4 @@
-﻿using System;
-using Ether.Network.Photon.Common;
+﻿using Ether.Network.Photon.Common;
 using SlightNet.Common.Interface;
 using AppContext = FLPH.Core.AppContext;
 
@@ -12,13 +11,10 @@ namespace FLPH.Network.Common
             base.HandlePacket(packet);
 
             var data = packet.Read<byte>(packet.Size);
-            
-            //Console.WriteLine($"Packet with Size: {data.Length} from Game Client received.");
-
+            data = AppContext.Instance.HookManager.CallClientToGameServerHooks(data);
             using (var response = new PhotonPacket())
             {
                 response.Write(data, 0, data.Length);
-                AppContext.Instance.HookManager.CallClientToGameServerHooks(response);
                 AppContext.Instance.ProxyClient.Send(response);
             }
         }

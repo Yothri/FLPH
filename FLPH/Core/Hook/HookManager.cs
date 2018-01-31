@@ -43,16 +43,20 @@ namespace FLPH.Core.Hook
         }
 
         #region "PDGameServer"
-        public void CallClientToGameServerHooks(PhotonPacket packet)
+        public byte[] CallClientToGameServerHooks(byte[] packet)
         {
+            var result = packet;
             foreach (var hook in Hooks)
-                hook.ClientToGameServerOverride(packet);
+                result = hook.ClientToGameServerOverride(result);
+            return result;
         }
 
-        public void CallGameServerToClientHooks(PhotonPacket packet)
+        public byte[] CallGameServerToClientHooks(byte[] packet)
         {
+            var result = packet;
             foreach (var hook in Hooks)
-                hook.GameServerToClientOverride(packet);
+                result = hook.GameServerToClientOverride(result);
+            return result;
         }
         #endregion
         #region "WPDGate"
