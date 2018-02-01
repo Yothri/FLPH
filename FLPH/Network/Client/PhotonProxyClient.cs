@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Sockets;
 using Ether.Network.Packets;
 using Ether.Network.Photon.Client;
@@ -9,7 +10,7 @@ namespace FLPH.Network.Client
 {
     internal class PhotonProxyClient : PhotonClient
     {
-        internal PhotonProxyClient() : base(AppContext.Instance.Configuration.GenuineGameServerIp, AppContext.Instance.Configuration.GenuineGameServerPort, 9)
+        internal PhotonProxyClient() : base(AppContext.Instance.Configuration.GenuineGameServerIp, AppContext.Instance.Configuration.GenuineGameServerPort, 8)
         {
 
         }
@@ -24,10 +25,13 @@ namespace FLPH.Network.Client
             base.HandleMessage(packet);
 
             var data = packet.Read<byte>(packet.Size);
-            data = AppContext.Instance.HookManager.CallGameServerToClientHooks(data);
-            using (var response = new PhotonPacket())
+            var hookData = data.Skip(1).ToArray();
+            if(data[0] != 240)
+                hookData = AppContext.Instance.HookManager.CallGameServerToClientHooks(data.Skip(8).ToArray());
+
+            using (var response = new PhotonPacket(data[0] == 240))
             {
-                response.Write(data, 0, data.Length);
+                response.Write(hookData, 0, hookData.Length);
                 AppContext.Instance.ProxyServer.SendTo(AppContext.Instance.ProxyServer.Clients, response);
             }
         }

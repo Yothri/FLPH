@@ -12,7 +12,7 @@ namespace FLPH.Network.Server
             Configuration.Backlog = 1;
             Configuration.Host = AppContext.Instance.Configuration.ProxyServerInterface;
             Configuration.Port = AppContext.Instance.Configuration.ProxyServerPort;
-            Configuration.BufferSize = 9;
+            Configuration.BufferSize = 8;
         }
 
         protected override void Initialize()
