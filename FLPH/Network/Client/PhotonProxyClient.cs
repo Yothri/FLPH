@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Sockets;
+using AdvancedConsole;
 using Ether.Network.Packets;
 using Ether.Network.Photon.Client;
 using Ether.Network.Photon.Common;
+using FLPH.Util;
 using AppContext = FLPH.Core.AppContext;
 
 namespace FLPH.Network.Client
@@ -25,6 +27,9 @@ namespace FLPH.Network.Client
             base.HandleMessage(packet);
 
             var data = packet.Read<byte>(packet.Size);
+            Console.WriteLine($"Client -> Server | Size: [{data.Length}]");
+            AConsole.WriteHexView(data);
+            Console.WriteLine();
             var hookData = data.Skip(1).ToArray();
             if(data[0] != 240)
                 hookData = AppContext.Instance.HookManager.CallGameServerToClientHooks(data.Skip(8).ToArray());
