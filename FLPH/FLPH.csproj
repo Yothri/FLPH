@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;net461</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\AdvancedConsole\AdvancedConsole\AdvancedConsole.csproj" />
     <ProjectReference Include="..\..\cs-script\Source\.NET Core\CSScriptLib\src\CSScriptLib\CSScriptLib.csproj" />
-    <ProjectReference Include="..\..\Ether.Network.Photon\Ether.Network.Photon\Ether.Network.Photon.csproj" />
+    <ProjectReference Include="..\..\SlightNet.Photon\SlightNet.Photon\SlightNet.Photon.csproj" />
+    <ProjectReference Include="..\..\SlightNet\SlightNet\SlightNet.csproj" />
     <ProjectReference Include="..\ClientCommon\ClientCommon.csproj" />
     <ProjectReference Include="..\Interface\Interface.csproj" />
     <ProjectReference Include="..\WebCommon\WebCommon.csproj" />

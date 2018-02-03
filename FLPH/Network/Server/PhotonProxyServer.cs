@@ -1,6 +1,6 @@
 ﻿using System;
-using Ether.Network.Photon.Server;
 using FLPH.Network.Common;
+using SlightNet.Photon.Server;
 using AppContext = FLPH.Core.AppContext;
 
 namespace FLPH.Network.Server
@@ -12,7 +12,7 @@ namespace FLPH.Network.Server
             Configuration.Backlog = 1;
             Configuration.Host = AppContext.Instance.Configuration.ProxyServerInterface;
             Configuration.Port = AppContext.Instance.Configuration.ProxyServerPort;
-            Configuration.BufferSize = 8;
+            Configuration.BufferSize = 1024;
         }
 
         protected override void Initialize()
@@ -31,11 +31,6 @@ namespace FLPH.Network.Server
 
             AppContext.Instance.ProxyClient.Disconnect();
             AppContext.Instance.ProxyClient.Connect();
-        }
-
-        protected override void OnError(Exception exception)
-        {
-            throw new NotImplementedException();
         }
     }
 }

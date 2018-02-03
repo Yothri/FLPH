@@ -4,8 +4,4 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Ether.Network.Photon\Ether.Network.Photon\Ether.Network.Photon.csproj" />
-  </ItemGroup>
-
 </Project>
