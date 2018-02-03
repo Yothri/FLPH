@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AdvancedConsole;
 using SlightNet.Common.Interface;
 using SlightNet.Photon.Server;
@@ -14,9 +15,12 @@ namespace FLPH.Network.Common
 
             var data = packet.Read<byte>(packet.Size);
 
-            Console.WriteLine("Client -> Server | Size: {0:X8}", packet.Size);
-            AConsole.WriteHexView(data);
-            Console.WriteLine();
+            Task.Factory.StartNew(() =>
+            {
+                Console.WriteLine("Client -> Server | Size: {0:X8}", packet.Size);
+                AConsole.WriteHexView(data);
+                Console.WriteLine();
+            });
 
             AppContext.Instance.ProxyClient.SendRaw(data);
         }

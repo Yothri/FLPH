@@ -14,6 +14,7 @@ namespace FLPH.Network.Server
             Configuration.Port = AppContext.Instance.Configuration.ProxyServerPort;
             Configuration.BufferSize = 1024;
             Configuration.Blocking = false;
+            Configuration.MaxConnections = 1;
         }
 
         protected override void Initialize()
