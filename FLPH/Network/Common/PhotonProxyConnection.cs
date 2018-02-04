@@ -13,7 +13,7 @@ namespace FLPH.Network.Common
         {
             base.HandlePacket(packet);
 
-            var data = packet.Read<byte>(packet.Size);
+            var data = AppContext.Instance.HookManager.CallClientToGameServerHooks(packet.Read<byte>(packet.Size));
 
             Task.Factory.StartNew(() =>
             {
@@ -21,7 +21,7 @@ namespace FLPH.Network.Common
                 AConsole.WriteHexView(data);
                 Console.WriteLine();
             });
-
+            
             AppContext.Instance.ProxyClient.SendRaw(data);
         }
     }

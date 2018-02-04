@@ -26,7 +26,7 @@ namespace FLPH.Network.Client
         {
             base.HandlePacket(packet);
 
-            var data = packet.Read<byte>(packet.Size);
+            var data = AppContext.Instance.HookManager.CallGameServerToClientHooks(packet.Read<byte>(packet.Size));
 
             Task.Factory.StartNew(() =>
             {
